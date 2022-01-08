@@ -35,6 +35,11 @@ public class PacktPage extends Common {
 	String strSubMainTitles = "//*[@class='collapse show']//a";
 	String strSubTitle = "//*[@class='collapse show']//a[text()='%s']";
 	String strCheckMainTitles = "//div[@class='epub-source']//h1";
+	String strStartFreeTrail = "//*[@class='button'][text()='Start FREE trial']";
+	String strReadNow = "//button[text()='Read now']";
+	String strAuthorName = "//*[@class='author-name']";
+	String strMediaTitle = "//*[@class='media-title']";
+	String strTitles = "//*[@class='title']";
 
 	// Login to the application
 	public WebDriver loginToApplication(String userName, String password) throws Exception {
@@ -118,7 +123,8 @@ public class PacktPage extends Common {
 			common.switchToChildWindow();
 			List<String> strTitles = common.getListOfElementsByXpathWithoutWait(strProductTitles);
 			for (int i = 0; i < 5; i++) {
-				if(strTitles.get(i).contains(strValues.get(j))|| strTitles.get(i).contains(getShortcutNameForModule(strValues.get(j)))) {
+				if (strTitles.get(i).contains(strValues.get(j))
+						|| strTitles.get(i).contains(getShortcutNameForModule(strValues.get(j)))) {
 					blnResult = true;
 				}
 			}
@@ -128,28 +134,28 @@ public class PacktPage extends Common {
 
 		return blnResult;
 	}
-	
+
 	// get Shortcut name for the Module
 	public String getShortcutNameForModule(String fullName) {
-		switch(fullName){
+		switch (fullName) {
 		case "Java Script":
-		    return "js";
+			return "js";
 		case "Angular":
 		case "React":
-		case "Django":	
+		case "Django":
 			return fullName;
 		case "Node.js":
 			return "Node";
 		}
 		return fullName;
 	}
-	
+
 	// check the Main Title Text displayed correctly
 	public boolean checkMainTitleTextDisplayed() {
 		boolean blnResult = false;
 		common.clickOnElement(strMainTitles);
 		List<String> strValues = common.getListOfElementsByClass(strSubMainTitles);
-		for(int i =0; i<strValues.size();i++) {
+		for (int i = 0; i < strValues.size(); i++) {
 			common.clickOnElement(String.format(strSubTitle, (strValues).get(i)));
 			common.implictWait(15);
 			String strActual = common.getTextByXpath(strCheckMainTitles);
@@ -158,5 +164,61 @@ public class PacktPage extends Common {
 			common.clickOnElement(strMainTitles);
 		}
 		return blnResult;
+	}
+
+	// check the Position and move to element
+	public boolean checkPositionAndMoveToElements() {
+		common.checkTheElementPosition(strLogo);
+		common.checkTheElementPosition(String.format(strCommonNav, "My Library"));
+		common.checkTheElementPosition(String.format(strCommonNav, "Browse"));
+		common.checkTheElementPosition(strMainTitles);
+		common.checkTheElementPosition(strStartFreeTrail);
+		common.checkTheElementPosition(strReadNow);
+		common.checkTheElementPosition(strAuthorName);
+		common.checkTheElementPosition(strMediaTitle);
+		return common.checkTheElementPosition(strTitles);
+	}
+
+	// check the Position and move to element
+	public boolean checkPositionAndMoveToElement() {
+		common.checkTheColourOfTheElement(strLogo, "#4ab9d5");
+		common.checkTheColourOfTheElement(String.format(strCommonNav, "My Library"), "#fff");
+		common.checkTheColourOfTheElement(String.format(strCommonNav, "Browse"), "#fff");
+		common.checkTheColourOfTheElement(strMainTitles, "#fff");
+		common.checkTheColourOfTheElement(strStartFreeTrail, "#fff");
+		common.checkTheColourOfTheElement(strReadNow, "#fff");
+		common.checkTheColourOfTheElement(strAuthorName, "#4ac5e3");
+		common.checkTheColourOfTheElement(strMediaTitle, "#454a55");
+		return common.checkTheColourOfTheElement(strTitles, "#4ac5e3");
+	}
+
+	// check the Text of My Library
+	public boolean checkTheTextOfMyLibrary(String value) {
+		String strValue = common.getTextByXpath(String.format(strCommonNav, "My Library"));
+		return value.equals(strValue);
+	}
+
+	// check the Text of Main Title
+	public boolean checkTheTextOfMainTitle(String value) {
+		String strValue = common.getTextByXpath(strMainTitles);
+		return value.equals(strValue);
+	}
+
+	// check the Text of Read now
+	public boolean checkTheTextOfReadNow(String value) {
+		String strValue = common.getTextByXpath(strReadNow);
+		return value.equals(strValue);
+	}
+
+	// check the Text of Author Name
+	public boolean checkTheTextOfAuthorName(String value) {
+		String strValue = common.getTextByXpath(strAuthorName);
+		return value.equals(strValue);
+	}
+
+	// check the Text of Title
+	public boolean checkTheTextOfTitle(String value) {
+		String strValue = common.getTextByXpath(strTitles);
+		return value.equals(strValue);
 	}
 }

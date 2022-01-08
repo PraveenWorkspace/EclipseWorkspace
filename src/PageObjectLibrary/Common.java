@@ -7,9 +7,12 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -17,6 +20,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Common {
 
 	WebDriver driver;
+	Actions actions;
 	String parentWindow, childWindow;
 	List<String> strProductValues = new ArrayList<String>();
 	List<String> strTitleValues = new ArrayList<String>();
@@ -194,6 +198,34 @@ public class Common {
 
 		}
 		return childWindow;
+	}
+
+	// check the element is in the correct Position
+	public Boolean checkTheElementPosition(String locator) {
+		try {
+			actions = new Actions(driver);
+			WebElement webElement = driver.findElement(By.xpath(locator));
+			Point point = webElement.getLocation();
+			int xcord = point.getX();
+			int ycord = point.getY();
+			actions.moveToElement(webElement, xcord, ycord);
+		} catch (Exception e) {
+
+		}
+		return true;
+	}
+	
+	//check the colour of the elements 
+	public boolean checkTheColourOfTheElement(String locator, String expectedColor) {
+		try {
+			WebElement webElement = driver.findElement(By.xpath(locator));
+			String actualclr = webElement.getCssValue("color");
+			String exptclr = Color.fromString(actualclr).asHex();
+			return expectedColor.equals(exptclr);
+		} catch (Exception e) {
+
+		}
+		return false;
 	}
 
 }
