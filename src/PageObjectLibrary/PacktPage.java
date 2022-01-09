@@ -192,18 +192,6 @@ public class PacktPage extends Common {
 		return common.checkTheColourOfTheElement(strTitles, "#4ac5e3");
 	}
 
-	// check the Text of My Library
-	public boolean checkTheTextOfMyLibrary(String value) {
-		String strValue = common.getTextByXpath(String.format(strCommonNav, "My Library"));
-		return value.equals(strValue);
-	}
-
-	// check the Text of Main Title
-	public boolean checkTheTextOfMainTitle(String value) {
-		String strValue = common.getTextByXpath(strMainTitles);
-		return value.equals(strValue);
-	}
-
 	// check the Text of Read now
 	public boolean checkTheTextOfReadNow(String value) {
 		String strValue = common.getTextByXpath(strReadNow);

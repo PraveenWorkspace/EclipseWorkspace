@@ -16,21 +16,31 @@ public class VerifyPublicationFilterAndSearchFunctionalityOfViewAllBooks {
 		driver = cm.launchURL();
 		packtPage = new PacktPage(driver);
 		packtPage.loginToApplication("15pa5a0221@vishnu.edu.in", "J@n@2022");
-		packtPage.checkPacktPagLoaded();
-		packtPage.clickOnBrowseNav();
+		boolean result = packtPage.checkPacktPagLoaded();
+		cm.reportingForTests(result, "To Check the Login to Appllication", "Login Page is checked",
+				"Login To Application successfully", "Fail to login to the application");
+		result = packtPage.clickOnBrowseNav();
+		cm.reportingForTests(result, "To click on the Browse", "Browse option is clicked",
+				"Browse Option clicked successfully", "Fail to click on the Browse");
 		cm.implictWait(5);
-		packtPage.clickOnViewAllBooks();
+		result = packtPage.clickOnViewAllBooks();
+		cm.reportingForTests(result, "To click on the View All link", "View All link option is clicked",
+				"View All link Option clicked successfully", "Fail to click on the View All link");
 		cm.switchToChildWindow();
-		packtPage.verifyCommonTextIsPresent("Product Type");
-		packtPage.clickOnCommonText("Clear all ");
-		packtPage.clickOn2021PublicationYearCheckbox();
-		packtPage.checkThePublicationYearForAllProducts("2021");
-		boolean result =  packtPage.checkTheProductTitleForAll();
-		 if(result) {
-	        	System.out.println("Script Pass");
-	        }
-	        else{
-	        	System.out.println("Script Fail");
-	        }
+		result = packtPage.verifyCommonTextIsPresent("Product Type");
+		cm.reportingForTests(result, "Verify Product Type is Present", "Product Type is Present",
+				"Product Type is displayed successfully", "Product Type is not displayed");
+		result = packtPage.clickOnCommonText("Clear all ");
+		cm.reportingForTests(result, "To click on the Clear all", "Clear all filter is clicked",
+				"Clear all filter clicked successfully", "Fail to click on the Clear all filter");
+		result = packtPage.clickOn2021PublicationYearCheckbox();
+		cm.reportingForTests(result, "To click on the Publication checkbox", "Publication checkbox is clicked",
+				"Publication checkbox clicked successfully", "Fail to click on the Publication checkbox");
+		result = packtPage.checkThePublicationYearForAllProducts("2021");
+		cm.reportingForTests(result, "To check on the selected year in all products", "selected year in all products is displayed correctly",
+				"selected year in all products are correctly displayed", "Fail to check the products of selected year");
+		result =  packtPage.checkTheProductTitleForAll();
+		cm.reportingForTests(result, "To check on the Product Title", "Product Title is displayed correctly",
+				"Product Title are correctly displayed", "Fail to check the Product Title");
 	}
 }

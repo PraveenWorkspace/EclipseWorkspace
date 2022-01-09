@@ -16,15 +16,13 @@ public class VerifySubOptionsInBrowseNavTab {
 		driver = cm.launchURL();
 		packtPage = new PacktPage(driver);
 		packtPage.loginToApplication("15pa5a0221@vishnu.edu.in", "J@n@2022");
-		packtPage.checkPacktPagLoaded();
+		boolean result = packtPage.checkPacktPagLoaded();
+		cm.reportingForTests(result, "To Check the Login to Appllication", "Login Page is checked",
+				"Login To Application successfully", "Fail to login to the application");
 		cm.implictWait(5);
-        boolean result = packtPage.checkSubOptionsPageProperlyDisplayed("Web Development");
-        if(result) {
-        	System.out.println("Script Pass");
-        }
-        else{
-        	System.out.println("Script Fail");
-        }
+        result = packtPage.checkSubOptionsPageProperlyDisplayed("Web Development");
+        cm.reportingForTests(result, "To Check the Sub Option Page Properly displayed", "Sub Option Page Properly displayed",
+				"Sub Option Page Properly displayed correctly", "Fail to navigate to Sub Option Page Properly");
 	}
 
 }

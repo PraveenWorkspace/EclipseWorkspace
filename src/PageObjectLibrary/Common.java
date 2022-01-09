@@ -1,6 +1,5 @@
 package PageObjectLibrary;
 
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +16,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+
 public class Common {
 
 	WebDriver driver;
@@ -24,6 +29,8 @@ public class Common {
 	String parentWindow, childWindow;
 	List<String> strProductValues = new ArrayList<String>();
 	List<String> strTitleValues = new ArrayList<String>();
+	ExtentReports extent = new ExtentReports();
+	ExtentSparkReporter reporter = new ExtentSparkReporter("./Results/status.html");
 
 	public Common(WebDriver driver) {
 		this.driver = driver;
@@ -226,6 +233,24 @@ public class Common {
 
 		}
 		return false;
+	}
+	
+	//create the Reports for the test cases
+	public void reportingForTests(boolean result, String createTest, String passedInfo, String passedResult,String failedResult) {
+		ExtentTest createtests = extent.createTest(createTest);
+		if(result) {
+		extent.attachReporter(reporter);	
+		createtests.pass(passedInfo);
+	    createtests.log(Status.PASS, passedResult);
+	    extent.flush();
+		}
+		else if(!result) {
+			extent.attachReporter(reporter);
+			createtests.fail(failedResult);
+		    createtests.log(Status.FAIL, failedResult);
+		    createtests.fail(MediaEntityBuilder.createScreenCaptureFromPath("./Results/FailScreenshot.png").build());
+		    extent.flush();
+		}
 	}
 
 }
