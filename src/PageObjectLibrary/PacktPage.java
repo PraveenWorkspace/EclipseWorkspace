@@ -23,7 +23,6 @@ public class PacktPage extends Common {
 	String strViewAllBooks = "//div[@class='row p-3 keep-me-active']//li";
 	String strCommonText = "//*[text()='%s']";
 	String strPublicationCheckboxID = "2021";
-	String strProductsYearText = "//span[contains(@class,'search-hit__published-on')]";
 	String strSerachTextbox = "//*[@id='search-input']";
 	String strSearchButton = "//*[@class='btn btn-primary ais-search-box--submit']";
 	String strSearchCoseIcon = "//*[@class='ais-search-box--reset']";
@@ -82,16 +81,6 @@ public class PacktPage extends Common {
 	// click on the 2021 Publication year checkbox
 	public boolean clickOn2021PublicationYearCheckbox() {
 		return common.clickOnElementById(strPublicationCheckboxID);
-	}
-
-	// check the Publication Year for all
-	public boolean checkThePublicationYearForAllProducts(String strValueText) {
-		boolean blnResult = false;
-		List<String> strValues = common.getListOfElementsByClass(strProductsYearText);
-		for (int i = 0; i < strValues.size(); i++) {
-			blnResult = strValues.get(i).contains(strValueText);
-		}
-		return blnResult;
 	}
 
 	// check the Product title for all
@@ -168,19 +157,19 @@ public class PacktPage extends Common {
 
 	// check the Position and move to element
 	public boolean checkPositionAndMoveToElements() {
-		common.checkTheElementPosition(strLogo);
-		common.checkTheElementPosition(String.format(strCommonNav, "My Library"));
-		common.checkTheElementPosition(String.format(strCommonNav, "Browse"));
-		common.checkTheElementPosition(strMainTitles);
-		common.checkTheElementPosition(strStartFreeTrail);
-		common.checkTheElementPosition(strReadNow);
-		common.checkTheElementPosition(strAuthorName);
-		common.checkTheElementPosition(strMediaTitle);
-		return common.checkTheElementPosition(strTitles);
+		common.checkTheElementPosition(strLogo,"134","15");
+		common.checkTheElementPosition(String.format(strCommonNav, "My Library"), "1198","26");
+		common.checkTheElementPosition(String.format(strCommonNav, "Browse"),"649","26");
+		common.checkTheElementPosition(strMainTitles,"1016","604");
+		common.checkTheElementPosition(strStartFreeTrail,"679","312");
+		common.checkTheElementPosition(strReadNow,"736","597");
+		common.checkTheElementPosition(strAuthorName,"75","1297");
+	    common.checkTheElementPosition(strMediaTitle,"75","1727");
+		return common.checkTheElementPosition(strTitles,"111","2130");
 	}
 
 	// check the Position and move to element
-	public boolean checkPositionAndMoveToElement() {
+	public boolean checkColorOfTheElementsInPage() {
 		common.checkTheColourOfTheElement(strLogo, "#4ab9d5");
 		common.checkTheColourOfTheElement(String.format(strCommonNav, "My Library"), "#fff");
 		common.checkTheColourOfTheElement(String.format(strCommonNav, "Browse"), "#fff");

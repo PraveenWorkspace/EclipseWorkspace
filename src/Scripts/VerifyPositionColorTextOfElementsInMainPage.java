@@ -20,11 +20,12 @@ public class VerifyPositionColorTextOfElementsInMainPage {
 		cm.reportingForTests(result, "To Check the Login to Appllication", "Login Page is checked",
 				"Login To Application successfully", "Fail to login to the application");
 		cm.implictWait(5);
-		result = packtPage.checkPositionAndMoveToElement();
+		result = packtPage.checkPositionAndMoveToElements();
 		cm.reportingForTests(result, "verify the Position of the Elements", "Position of the Elements is checked",
 				"Position of the Elements is checked successfully", "Fail to check Position of the Elements");
-		cm.reportingForTests(result, "verify the Text of Main Title", "Text of Main Title is checked",
-				"Text of Main Title is checked successfully", "Fail to check Text of Main Title");
+		result = packtPage.checkColorOfTheElementsInPage();
+		cm.reportingForTests(result, "verify the Color of the elements", "Color of the elements is checked",
+				"Color of the elements is checked successfully", "Fail to check Color of the elementse");
 		result = packtPage.checkTheTextOfReadNow("Read now");
 		cm.reportingForTests(result, "verify the Text of Read now button", "Text of Read now button is checked",
 				"Text of Read now button is checked successfully", "Fail to check Text of Read now button");

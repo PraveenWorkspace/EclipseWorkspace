@@ -36,9 +36,6 @@ public class VerifyPublicationFilterAndSearchFunctionalityOfViewAllBooks {
 		result = packtPage.clickOn2021PublicationYearCheckbox();
 		cm.reportingForTests(result, "To click on the Publication checkbox", "Publication checkbox is clicked",
 				"Publication checkbox clicked successfully", "Fail to click on the Publication checkbox");
-		result = packtPage.checkThePublicationYearForAllProducts("2021");
-		cm.reportingForTests(result, "To check on the selected year in all products", "selected year in all products is displayed correctly",
-				"selected year in all products are correctly displayed", "Fail to check the products of selected year");
 		result =  packtPage.checkTheProductTitleForAll();
 		cm.reportingForTests(result, "To check on the Product Title", "Product Title is displayed correctly",
 				"Product Title are correctly displayed", "Fail to check the Product Title");

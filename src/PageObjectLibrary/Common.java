@@ -27,6 +27,7 @@ public class Common {
 	WebDriver driver;
 	Actions actions;
 	String parentWindow, childWindow;
+	static String actualReportName;
 	List<String> strProductValues = new ArrayList<String>();
 	List<String> strTitleValues = new ArrayList<String>();
 	ExtentReports extent = new ExtentReports();
@@ -208,14 +209,14 @@ public class Common {
 	}
 
 	// check the element is in the correct Position
-	public Boolean checkTheElementPosition(String locator) {
+	public Boolean checkTheElementPosition(String locator, String strValueX, String strValueY) {
 		try {
 			actions = new Actions(driver);
 			WebElement webElement = driver.findElement(By.xpath(locator));
 			Point point = webElement.getLocation();
 			int xcord = point.getX();
 			int ycord = point.getY();
-			actions.moveToElement(webElement, xcord, ycord);
+			return ((String.valueOf(xcord)).equals(strValueX) && (String.valueOf(ycord)).equals(strValueY));
 		} catch (Exception e) {
 
 		}
@@ -252,5 +253,4 @@ public class Common {
 		    extent.flush();
 		}
 	}
-
 }
