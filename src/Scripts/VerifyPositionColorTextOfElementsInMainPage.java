@@ -15,7 +15,11 @@ public class VerifyPositionColorTextOfElementsInMainPage {
 		// TODO Auto-generated method stub
 		driver = cm.launchURL();
 		packtPage = new PacktPage(driver);
-		packtPage.loginToApplication("15pa5a0221@vishnu.edu.in", "J@n@2022");
+		cm.getFilePath("src/TestData/DataDetails.xlsx");
+		cm.getReportName("VerifyPositionColorTextOfElementsInMainPage", "VerifyPositionColorTextOfElementsInMainPage");
+		String username = cm.getCellData("Sheet1", "UserName", 1);
+		String password = cm.getCellData("Sheet1", "Password", 1);
+		packtPage.loginToApplication(username, password);
 		boolean result = packtPage.checkPacktPagLoaded();
 		cm.reportingForTests(result, "To Check the Login to Appllication", "Login Page is checked",
 				"Login To Application successfully", "Fail to login to the application");
@@ -26,13 +30,16 @@ public class VerifyPositionColorTextOfElementsInMainPage {
 		result = packtPage.checkColorOfTheElementsInPage();
 		cm.reportingForTests(result, "verify the Color of the elements", "Color of the elements is checked",
 				"Color of the elements is checked successfully", "Fail to check Color of the elementse");
-		result = packtPage.checkTheTextOfReadNow("Read now");
+		String text = cm.getCellData("Sheet1", "Text", 1);
+		result = packtPage.checkTheTextOfReadNow(text);
 		cm.reportingForTests(result, "verify the Text of Read now button", "Text of Read now button is checked",
 				"Text of Read now button is checked successfully", "Fail to check Text of Read now button");
-		result = packtPage.checkTheTextOfAuthorName("Mark J. Price");
+		String authorname = cm.getCellData("Sheet1", "Author name", 1);
+		result = packtPage.checkTheTextOfAuthorName(authorname);
 		cm.reportingForTests(result, "verify the Text of Author Name", "Text of Author Name is checked",
 				"Text of Author Name is checked successfully", "Fail to check Text of Author Name");
-		result = packtPage.checkTheTextOfTitle("Incident response with Threat Intelligence");
+		String strtext = cm.getCellData("Sheet1", "Title", 1);
+		result = packtPage.checkTheTextOfTitle(strtext);
 		cm.reportingForTests(result, "To Check the Title Text", "Title Text is checked",
 				"Title Text is checked successfully", "Fail to check the Title Text");
 	}

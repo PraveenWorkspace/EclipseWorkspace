@@ -1,10 +1,15 @@
 package PageObjectLibrary;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -31,7 +36,13 @@ public class Common {
 	List<String> strProductValues = new ArrayList<String>();
 	List<String> strTitleValues = new ArrayList<String>();
 	ExtentReports extent = new ExtentReports();
-	ExtentSparkReporter reporter = new ExtentSparkReporter("./Results/status.html");
+	ExtentSparkReporter reporter;
+	ExtentTest createtests;
+    FileInputStream fis = null;
+	XSSFWorkbook workbook = null;
+	XSSFSheet sheet = null;
+	XSSFRow row = null;
+	XSSFCell cell = null;
 
 	public Common(WebDriver driver) {
 		this.driver = driver;
@@ -222,8 +233,8 @@ public class Common {
 		}
 		return true;
 	}
-	
-	//check the colour of the elements 
+
+	// check the colour of the elements
 	public boolean checkTheColourOfTheElement(String locator, String expectedColor) {
 		try {
 			WebElement webElement = driver.findElement(By.xpath(locator));
@@ -235,22 +246,56 @@ public class Common {
 		}
 		return false;
 	}
-	
-	//create the Reports for the test cases
-	public void reportingForTests(boolean result, String createTest, String passedInfo, String passedResult,String failedResult) {
-		ExtentTest createtests = extent.createTest(createTest);
-		if(result) {
-		extent.attachReporter(reporter);	
-		createtests.pass(passedInfo);
-	    createtests.log(Status.PASS, passedResult);
-	    extent.flush();
-		}
-		else if(!result) {
+
+	// create the Reports for the test cases
+	public void reportingForTests(boolean result, String checkdeatils, String passedInfo, String passedResult,
+			String failedResult) {
+
+		if (result) {
 			extent.attachReporter(reporter);
+			createtests.log(Status.PASS, checkdeatils);
+			createtests.pass(passedInfo);
+			createtests.log(Status.PASS, passedResult);
+			extent.flush();
+		} else if (!result) {
+			extent.attachReporter(reporter);
+			createtests.log(Status.FAIL, checkdeatils);
 			createtests.fail(failedResult);
-		    createtests.log(Status.FAIL, failedResult);
-		    createtests.fail(MediaEntityBuilder.createScreenCaptureFromPath("./Results/FailScreenshot.png").build());
-		    extent.flush();
+			createtests.log(Status.FAIL, failedResult);
+			createtests.fail(MediaEntityBuilder.createScreenCaptureFromPath("./Results/FailScreenshot.png").build());
+			extent.flush();
+		}
+	}
+
+	// create the reports for each test case
+	public void getReportName(String createTest, String reportName) {
+		createtests = extent.createTest(createTest);
+		reporter = new ExtentSparkReporter("./Results/" + reportName + ".html");
+		extent.attachReporter(reporter);
+		extent.flush();
+	}
+	
+	public void getFilePath(String filePath) throws Exception {
+		fis = new FileInputStream(filePath);
+        workbook = new XSSFWorkbook(fis);
+        fis.close();
+	}
+
+	public String getCellData(String sheetName, String colName, int rowNum) {
+		try {
+			int col_Num = -1;
+			sheet = workbook.getSheet(sheetName);
+			row = sheet.getRow(0);
+			for (int i = 0; i < row.getLastCellNum(); i++) {
+				if (row.getCell(i).getStringCellValue().trim().equals(colName.trim()))
+					col_Num = i;
+			}
+			row = sheet.getRow(rowNum);
+			cell = row.getCell(col_Num);
+			return cell.getStringCellValue();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "row " + rowNum + " or column " + colName + " does not exist  in Excel";
 		}
 	}
 }

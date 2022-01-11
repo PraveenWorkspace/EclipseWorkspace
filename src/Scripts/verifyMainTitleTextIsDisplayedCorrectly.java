@@ -15,7 +15,11 @@ public class verifyMainTitleTextIsDisplayedCorrectly {
 		// TODO Auto-generated method stub
 		driver = cm.launchURL();
 		packtPage = new PacktPage(driver);
-		packtPage.loginToApplication("15pa5a0221@vishnu.edu.in", "J@n@2022");
+		cm.getFilePath("src/TestData/DataDetails.xlsx");
+		cm.getReportName("verifyMainTitleTextIsDisplayedCorrectly", "verifyMainTitleTextIsDisplayedCorrectly");
+		String username = cm.getCellData("Sheet1", "UserName", 1);
+		String password = cm.getCellData("Sheet1", "Password", 1);
+		packtPage.loginToApplication(username, password);
 		boolean result = packtPage.checkPacktPagLoaded();
 		cm.reportingForTests(result, "To Check the Login to Appllication", "Login Page is checked",
 				"Login To Application successfully", "Fail to login to the application");
