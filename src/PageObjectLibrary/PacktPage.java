@@ -3,6 +3,7 @@ package PageObjectLibrary;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriver.Timeouts;
 
 public class PacktPage extends Common {
 
@@ -13,7 +14,8 @@ public class PacktPage extends Common {
 		super(driver);
 		common = new Common(driver);
 	}
-
+    
+	//We elements locators
 	String strLogo = "//img[@class='logo']";
 	String strSignInButton = "//a[@class='nav-link-subscribe btn-primary']";
 	String strEmailID = "login-input-email";
@@ -42,18 +44,25 @@ public class PacktPage extends Common {
 
 	// Login to the application
 	public WebDriver loginToApplication(String userName, String password) throws Exception {
-
+        //check the logo is present
 		common.isElementPresent(strLogo);
+		//click on sign in button
 		common.clickOnElement(strSignInButton);
+		// switch to child window
 		common.switchToChildWindow();
+		//set the Email Id
 		common.setTextByID(strEmailID, userName);
+		//set the Password
 		common.setTextByID(strPasswordID, password);
+		//click on Log in button
 		common.clickOnElement(strSignInSubmitt);
+		//return the driver
 		return driver;
 	}
 
 	// check the page is loaded
 	public boolean checkPacktPagLoaded() {
+		//wait and click on My Library
 		common.waitUntilElementClickable(String.format(strCommonNav, "My Library"), 15);
 		return true;
 	}
@@ -87,13 +96,19 @@ public class PacktPage extends Common {
 	public boolean checkTheProductTitleForAll() {
 		boolean blnResult = false;
 		for (int j = 0; j < strProductNames.length;) {
+			//set the product name
 			common.setTextByXpath(strSerachTextbox, strProductNames[j]);
+			//click on Search buton
 			common.clickOnElement(strSearchButton);
+			//wait for web element
 			common.implictWait(10);
+			//Get the Product titles
 			List<String> strValues = common.getListOfElementsByClass(strProductTitles);
 			for (int i = 0; i < strValues.size(); i++) {
+				//check the values is present in the list
 				blnResult = strValues.get(i).contains(strProductNames[j]);
 			}
+			//click on the close icon
 			common.clickOnElement(strSearchCoseIcon);
 			j++;
 		}
@@ -104,23 +119,31 @@ public class PacktPage extends Common {
 	public boolean checkSubOptionsPageProperlyDisplayed(String CategoryName) {
 		boolean blnResult = false;
 		for (int j = 0; j < 4;) {
+			//click on Browse
 			clickOnBrowseNav();
+			//click on the main category
 			common.clickOnElement(String.format(strMainCategory, CategoryName));
+			//wait for element
 			common.implictWait(10);
+			//get the Sub options
 			List<String> strValues = common.getListOfElementsByClass(strCommonSubOptions);
+			//click on sub option
 			common.clickOnElement(String.format(strSubOptions, strValues.get(j)));
+			// switch to child window
 			common.switchToChildWindow();
+			//get the product titkes
 			List<String> strTitles = common.getListOfElementsByXpathWithoutWait(strProductTitles);
 			for (int i = 0; i < 5; i++) {
+				//check the  value in the product titles
 				if (strTitles.get(i).contains(strValues.get(j))
 						|| strTitles.get(i).contains(getShortcutNameForModule(strValues.get(j)))) {
 					blnResult = true;
 				}
 			}
+			//switch to Parent window
 			common.switchToParentWindow();
 			j++;
 		}
-
 		return blnResult;
 	}
 
@@ -142,21 +165,34 @@ public class PacktPage extends Common {
 	// check the Main Title Text displayed correctly
 	public boolean checkMainTitleTextDisplayed() {
 		boolean blnResult = false;
+		//wait for the element
+		common.waitUntilElementVisible(strMainTitles,15);
+		// click on main title
 		common.clickOnElement(strMainTitles);
+		// get the sub titles
 		List<String> strValues = common.getListOfElementsByClass(strSubMainTitles);
 		for (int i = 0; i < strValues.size(); i++) {
+			// click on sub title
 			common.clickOnElement(String.format(strSubTitle, (strValues).get(i)));
+			//wait for the element
 			common.implictWait(15);
+			//get the main title text
 			String strActual = common.getTextByXpath(strCheckMainTitles);
+			//check the value with actual value
 			blnResult = strActual.equals(strValues.get(i));
+			//click on logo
 			common.clickOnElement(strLogo);
+			//wait for the main title
+			common.waitUntilElementVisible(strMainTitles,20);
+			//click on main title
 			common.clickOnElement(strMainTitles);
 		}
 		return blnResult;
 	}
 
-	// check the Position and move to element
+	// check the Position element
 	public boolean checkPositionAndMoveToElements() {
+		//check the position of web elements in Main Page
 		common.checkTheElementPosition(strLogo,"134","15");
 		common.checkTheElementPosition(String.format(strCommonNav, "My Library"), "1198","26");
 		common.checkTheElementPosition(String.format(strCommonNav, "Browse"),"649","26");
@@ -168,8 +204,9 @@ public class PacktPage extends Common {
 		return common.checkTheElementPosition(strTitles,"111","2130");
 	}
 
-	// check the Position and move to element
+	// check the color of the web elements in main Page
 	public boolean checkColorOfTheElementsInPage() {
+		//check the color of the web elements in main Page
 		common.checkTheColourOfTheElement(strLogo, "#4ab9d5");
 		common.checkTheColourOfTheElement(String.format(strCommonNav, "My Library"), "#fff");
 		common.checkTheColourOfTheElement(String.format(strCommonNav, "Browse"), "#fff");
